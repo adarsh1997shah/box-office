@@ -2,8 +2,13 @@ import React, { useEffect, useReducer } from 'react';
 import { useParams } from 'react-router-dom';
 import { getResult } from '../apiGet';
 
+import ShowMainData from '../components/show/ShowMainData';
+import Seasons from '../components/show/Seasons';
+import Cast from '../components/show/Cast';
+import Details from '../components/show/Details';
+
 const initialState = {
-    showDes: null,
+    show: null,
     isLoading: true,
     err: null,
 };
@@ -11,7 +16,7 @@ const initialState = {
 const reducer = (prevState, action) => {
     switch (action.type) {
         case 'FETCH_SUCCESS':
-            return { isLoading: false, err: null, showDes: action.showDes };
+            return { isLoading: false, err: null, show: action.show };
         case 'FETCH_FAILED':
             return { ...prevState, isLoading: false, err: action.err };
         default: {
@@ -21,7 +26,7 @@ const reducer = (prevState, action) => {
 };
 
 const Show = () => {
-    const [{ showDes, isLoading, err }, dispatch] = useReducer(
+    const [{ show, isLoading, err }, dispatch] = useReducer(
         reducer,
         initialState
     );
@@ -37,7 +42,7 @@ const Show = () => {
             );
 
             if (isMounted) {
-                dispatch({ type: 'FETCH_SUCCESS', showDes: result });
+                dispatch({ type: 'FETCH_SUCCESS', show: result });
             }
         }
 
@@ -52,7 +57,7 @@ const Show = () => {
             isMounted = false;
         };
     }, [showId]);
-    console.log(showDes);
+    console.log(show);
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -64,7 +69,32 @@ const Show = () => {
 
     return (
         <div>
-            <div>This is Show</div>
+            <ShowMainData
+                image={show.image}
+                name={show.name}
+                rating={show.rating}
+                summary={show.summary}
+                tags={show.genres}
+            />
+
+            <div>
+                <h2>Details</h2>
+                <Details
+                    status={show.status}
+                    network={show.network}
+                    premiered={show.premiered}
+                />
+            </div>
+
+            <div>
+                <h2>Season</h2>
+                <Seasons seasons={show._embedded.seasons} />
+            </div>
+
+            <div>
+                <h2>Cast</h2>
+                <Cast cast={show._embedded.cast} />
+            </div>
         </div>
     );
 };

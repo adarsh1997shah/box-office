@@ -1,9 +1,11 @@
 import React from 'react';
 import { dateFormatter } from '../../helper';
 
+import { DetailsWrapper } from '../../styles/details.styled';
+
 const Details = ({ status, premiered, network }) => {
     return (
-        <div>
+        <DetailsWrapper>
             <p>
                 Status: <span>{status}</span>
             </p>
@@ -11,7 +13,7 @@ const Details = ({ status, premiered, network }) => {
                 Premiered {dateFormatter(premiered)}{' '}
                 {network ? `on ${network.name}` : null}
             </p>
-        </div>
+        </DetailsWrapper>
     );
 };
 

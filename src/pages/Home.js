@@ -4,6 +4,8 @@ import SearchResult from '../components/SearchResult';
 
 import { getResult } from '../apiGet';
 
+import { Grid } from '../styles/styled';
+
 const Home = () => {
     const [searchText, setSearchText] = useState('');
     const [searchResult, setSearchResult] = useState(null);
@@ -79,13 +81,13 @@ const Home = () => {
                 </form>
             </div>
 
-            <div>
+            <Grid>
                 {!isSearchResult ? (
                     <SearchResult searchResult={searchResult} />
                 ) : (
                     <div>Loading...</div>
                 )}
-            </div>
+            </Grid>
         </MainPageLaout>
     );
 };

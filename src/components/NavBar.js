@@ -1,16 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+const LINKS = [
+    { to: './', text: 'Home' },
+    { to: '/starred', text: 'Starred' },
+];
+
 const NavBar = () => {
     return (
         <div>
             <ul>
-                <li>
-                    <Link to="/">Home</Link>
-                </li>
-                <li>
-                    <Link to="/starred">Starred</Link>
-                </li>
+                {LINKS.map(link => {
+                    return (
+                        <li>
+                            <Link to={link.to}>{link.text}</Link>
+                        </li>
+                    );
+                })}
             </ul>
         </div>
     );

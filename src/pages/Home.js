@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MainPageLaout from '../components/MainPageLayout';
 import SearchResult from '../components/SearchResult';
 
@@ -7,15 +7,37 @@ import { getResult } from '../apiGet';
 import { Grid } from '../styles/styled';
 
 const Home = () => {
-    const [searchText, setSearchText] = useState('');
-    const [searchResult, setSearchResult] = useState(null);
+    const [searchText, setSearchText] = useState(() => {
+        if (sessionStorage.getItem('searchText')) {
+            return sessionStorage.getItem('searchText');
+        }
+        return '';
+    });
     const [searchOption, setSearchOption] = useState('shows');
+    const [searchResult, setSearchResult] = useState(null);
     const [isSearchResult, setIsSearchResult] = useState(false);
 
     const isSearchOption = searchOption === 'shows';
 
+    useEffect(() => {
+        const init = async () => {
+            // Loading before fetching.
+            setIsSearchResult(true);
+
+            const results = await getResult(
+                `search/shows?q=${sessionStorage.getItem('searchText')}`
+            );
+
+            console.log(results);
+            setSearchResult(results);
+        };
+
+        init();
+    }, []);
+
     const handleSearchChange = e => {
         setSearchText(e.currentTarget.value);
+        sessionStorage.setItem('searchText', e.currentTarget.value);
     };
 
     const handleSearchOption = e => {
@@ -41,7 +63,7 @@ const Home = () => {
     return (
         <MainPageLaout>
             <div>
-                <form>
+                <form autoComplete="off">
                     <input
                         type="text"
                         name="searchText"

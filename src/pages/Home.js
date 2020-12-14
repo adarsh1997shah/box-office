@@ -36,7 +36,6 @@ const Home = () => {
 
         console.log(results);
         setSearchResult(results);
-        setIsSearchResult(false);
     };
 
     return (
@@ -82,10 +81,10 @@ const Home = () => {
             </div>
 
             <Grid>
-                {!isSearchResult ? (
+                {isSearchResult ? (
                     <SearchResult searchResult={searchResult} />
                 ) : (
-                    <div>Loading...</div>
+                    ''
                 )}
             </Grid>
         </MainPageLaout>

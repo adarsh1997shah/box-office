@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, 250px);
+    grid-template-columns: repeat(auto-fit, 250px);
     padding: 0.5rem;
     grid-gap: 2rem;
     justify-content: center;
@@ -37,7 +37,7 @@ export const Star = styled.div`
     display: inline-block;
     width: 18px;
     height: 18px;
-    background-color: #ffc806;
+    background-color: ${props => (props.active ? '#ffc806' : '#ddd')};
     clip-path: polygon(
         50% 0%,
         61% 35%,

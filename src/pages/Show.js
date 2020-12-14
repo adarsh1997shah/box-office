@@ -41,7 +41,7 @@ const Show = () => {
 
         async function fetchData() {
             const result = await getResult(
-                'shows/1?embed[]=seasons&embed[]=cast'
+                `shows/${showId}?embed[]=seasons&embed[]=cast`
             );
 
             if (isMounted) {
@@ -60,7 +60,6 @@ const Show = () => {
             isMounted = false;
         };
     }, [showId]);
-    console.log(show);
 
     if (isLoading) {
         return <div>Loading...</div>;

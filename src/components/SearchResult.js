@@ -1,9 +1,24 @@
 import React from 'react';
-import ShowCard from '../components/ShowCard';
-import ActorCard from '../components/ActorCard';
+import ShowCard from './ShowCard';
+import ActorCard from './ActorCard';
 import IMAGE_NOT_FOUND from '../images/not-found.png';
 
+import { useShows } from '../helper';
+
 const SearchResult = ({ searchResult }) => {
+    const [state, dispatch] = useShows();
+
+    const handleStarred = e => {
+        const el = e.currentTarget;
+
+        if (state.includes(el.id)) {
+            dispatch({ type: 'REMOVE', showId: el.id });
+        } else {
+            dispatch({ type: 'ADD', showId: el.id });
+        }
+    };
+    console.log(state);
+
     return (
         <>
             {searchResult ? (
@@ -21,6 +36,8 @@ const SearchResult = ({ searchResult }) => {
                                             : IMAGE_NOT_FOUND
                                     }
                                     summary={show.summary ? show.summary : null}
+                                    handleStarred={handleStarred}
+                                    active={state.includes(show.id.toString())}
                                 />
                             );
                         })
@@ -51,7 +68,7 @@ const SearchResult = ({ searchResult }) => {
                     <div>No Result</div>
                 )
             ) : (
-                ''
+                'Loading...'
             )}
         </>
     );

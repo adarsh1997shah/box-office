@@ -53,7 +53,7 @@ export const Star = styled.div`
   );
 `;
 
-export const StarredLoading = styled.div`
+export const Loading = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;

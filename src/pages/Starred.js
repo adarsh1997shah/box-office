@@ -6,7 +6,7 @@ import ShowCard from '../components/ShowCard';
 import { useShows } from '../helper';
 import { getResult } from '../apiGet';
 
-import { Grid, StarredLoading } from '../styles/styled';
+import { Grid, Loading } from '../styles/styled';
 
 const Starred = () => {
   const [state, dispatch] = useShows();
@@ -24,7 +24,6 @@ const Starred = () => {
 
       setIsLoading(false);
       setStarred(result);
-      console.log('res', result);
     };
 
     starredResult().catch(err => {
@@ -44,7 +43,7 @@ const Starred = () => {
   };
 
   if (loading) {
-    return <StarredLoading>Loading...</StarredLoading>;
+    return <Loading>Loading...</Loading>;
   }
 
   if (err) {

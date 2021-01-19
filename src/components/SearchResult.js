@@ -7,7 +7,6 @@ import { useShows } from '../helper';
 
 const SearchResult = ({ searchResult }) => {
   const [state, dispatch] = useShows();
-  console.log(searchResult);
 
   const handleStarred = e => {
     const el = e.currentTarget;

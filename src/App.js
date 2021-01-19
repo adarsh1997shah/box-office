@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import Starred from './pages/Starred';
-import Show from './pages/Show';
 
 import { ThemeProvider } from 'styled-components';
+import { Loading } from './styles/styled';
+
+const Starred = React.lazy(() => import('./pages/Starred'));
+const Show = React.lazy(() => import('./pages/Show'));
 
 const theme = {
   mainColors: {
@@ -20,8 +22,16 @@ const App = () => {
       <BrowserRouter>
         <Switch>
           <Route path="/" exact component={Home}></Route>
-          <Route path="/starred" component={Starred}></Route>
-          <Route path="/show/:showId" component={Show}></Route>
+          <Route path="/starred">
+            <Suspense fallback={<Loading>Loading...</Loading>}>
+              <Starred />
+            </Suspense>
+          </Route>
+          <Route path="/show/:showId">
+            <Suspense fallback={<Loading>Loading...</Loading>}>
+              <Show />
+            </Suspense>
+          </Route>
           <Route>This page is not found</Route>
         </Switch>
       </BrowserRouter>

@@ -8,35 +8,32 @@ import { Headline } from '../../styles/showMainData.styled';
 import { TagList } from '../../styles/showMainData.styled';
 
 const ShowMainData = ({ name, rating, summary, tags, image }) => {
-    return (
-        <MainDataWrapper>
-            <img
-                src={image ? image.original : IMG_PLACEHOLDER}
-                alt="show-cover"
-            />
-            <div className="text-side">
-                <Headline>
-                    <h1>{name}</h1>
-                    <div>
-                        <Star active />
-                        <span>{rating.average || 'N/A'}</span>
-                    </div>
-                </Headline>
-                <div
-                    className="summary"
-                    dangerouslySetInnerHTML={{ __html: summary }}
-                />
+  return (
+    <MainDataWrapper>
+      <img src={image ? image.original : IMG_PLACEHOLDER} alt="show-cover" />
+      <div className="text-side">
+        <Headline>
+          <h1>{name}</h1>
+          <div>
+            <Star active />
+            <span>{rating.average || 'N/A'}</span>
+          </div>
+        </Headline>
+        <div
+          className="summary"
+          dangerouslySetInnerHTML={{ __html: summary }}
+        />
 
-                <TagList>
-                    Tags:{' '}
-                    <div>
-                        {tags.map((tag, i) => (
-                            <span key={i}>{tag}</span>
-                        ))}
-                    </div>
-                </TagList>
-            </div>
-        </MainDataWrapper>
-    );
+        <TagList>
+          Tags:{' '}
+          <div>
+            {tags.map((tag, i) => (
+              <span key={i}>{tag}</span>
+            ))}
+          </div>
+        </TagList>
+      </div>
+    </MainDataWrapper>
+  );
 };
 export default ShowMainData;

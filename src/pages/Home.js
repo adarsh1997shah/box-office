@@ -5,112 +5,131 @@ import SearchResult from '../components/SearchResult';
 import { getResult } from '../apiGet';
 
 import { Grid } from '../styles/styled';
+import {
+  SearchInput,
+  RadioInputsWrapper,
+  SearchButtonWrapper,
+} from '../styles/home.styled';
+
+import { RadioWrapper } from '../styles/radio.styled';
 
 const Home = () => {
-    const [searchText, setSearchText] = useState(() => {
-        if (sessionStorage.getItem('searchText')) {
-            return sessionStorage.getItem('searchText');
-        }
-        return '';
-    });
-    const [searchOption, setSearchOption] = useState('shows');
-    const [searchResult, setSearchResult] = useState(null);
-    const [isSearchResult, setIsSearchResult] = useState(false);
+  const [searchText, setSearchText] = useState(() => {
+    if (sessionStorage.getItem('searchText')) {
+      return sessionStorage.getItem('searchText');
+    }
+    return '';
+  });
+  const [searchOption, setSearchOption] = useState('shows');
+  const [searchResult, setSearchResult] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-    const isSearchOption = searchOption === 'shows';
+  const isSearchOption = searchOption === 'shows';
 
-    useEffect(() => {
-        const init = async () => {
-            // Loading before fetching.
-            setIsSearchResult(true);
+  useEffect(() => {
+    const init = async () => {
+      // Loading before fetching.
+      setIsLoading(true);
 
-            const results = await getResult(
-                `search/shows?q=${sessionStorage.getItem('searchText')}`
-            );
+      const results = await getResult(
+        `search/shows?q=${sessionStorage.getItem('searchText')}`
+      );
 
-            console.log(results);
-            setSearchResult(results);
-        };
-
-        init();
-    }, []);
-
-    const handleSearchChange = e => {
-        setSearchText(e.currentTarget.value);
-        sessionStorage.setItem('searchText', e.currentTarget.value);
+      setSearchResult(results);
     };
 
-    const handleSearchOption = e => {
-        const value = e.currentTarget.value;
+    sessionStorage.getItem('searchText') ? init() : setSearchResult(null);
+    setIsLoading(false);
+  }, []);
 
-        setSearchOption(value);
-    };
+  const handleSearchChange = e => {
+    setSearchText(e.currentTarget.value);
+  };
 
-    const handleSearchSubmit = async e => {
-        e.preventDefault();
+  const handleSearchOption = e => {
+    const value = e.currentTarget.value;
 
-        // Loading before fetching.
-        setIsSearchResult(true);
+    setSearchOption(value);
+  };
 
-        const results = await getResult(
-            `search/${searchOption}?q=${searchText}`
-        );
+  const handleSearchSubmit = async e => {
+    e.preventDefault();
 
-        console.log(results);
-        setSearchResult(results);
-    };
+    if (searchText === '') {
+      setSearchResult(null);
+      return;
+    }
 
-    return (
-        <MainPageLaout>
+    // Loading before fetching.
+    setIsLoading(true);
+    const results = await getResult(`search/${searchOption}?q=${searchText}`);
+
+    setSearchResult(results);
+    sessionStorage.setItem('searchText', searchText);
+    setIsLoading(false);
+  };
+
+  return (
+    <MainPageLaout>
+      <div>
+        <form autoComplete="off">
+          <SearchInput
+            type="text"
+            name="searchText"
+            value={searchText}
+            onChange={handleSearchChange}
+            placeholder="Search for something"
+          />
+
+          <RadioInputsWrapper>
             <div>
-                <form autoComplete="off">
-                    <input
-                        type="text"
-                        name="searchText"
-                        value={searchText}
-                        onChange={handleSearchChange}
-                        placeholder="Search for something"
-                    />
-
-                    <label htmlFor="shows">
-                        Shows
-                        <input
-                            id="shows"
-                            type="radio"
-                            value="shows"
-                            name="search-option"
-                            checked={isSearchOption}
-                            onChange={handleSearchOption}
-                        />
-                    </label>
-
-                    <label htmlFor="people">
-                        Actors
-                        <input
-                            id="people"
-                            type="radio"
-                            value="people"
-                            name="search-option"
-                            checked={!isSearchOption}
-                            onChange={handleSearchOption}
-                        />
-                    </label>
-
-                    <button type="submit" onClick={handleSearchSubmit}>
-                        Search
-                    </button>
-                </form>
+              <RadioWrapper htmlFor="shows">
+                Shows
+                <input
+                  id="shows"
+                  type="radio"
+                  value="shows"
+                  name="search-option"
+                  checked={isSearchOption}
+                  onChange={handleSearchOption}
+                />
+                <span />
+              </RadioWrapper>
             </div>
 
-            <Grid>
-                {isSearchResult ? (
-                    <SearchResult searchResult={searchResult} />
-                ) : (
-                    ''
-                )}
-            </Grid>
-        </MainPageLaout>
-    );
+            <div>
+              <RadioWrapper htmlFor="people">
+                Actors
+                <input
+                  id="people"
+                  type="radio"
+                  value="people"
+                  name="search-option"
+                  checked={!isSearchOption}
+                  onChange={handleSearchOption}
+                />
+                <span />
+              </RadioWrapper>
+            </div>
+          </RadioInputsWrapper>
+
+          <SearchButtonWrapper>
+            <button type="submit" onClick={handleSearchSubmit}>
+              Search
+            </button>
+          </SearchButtonWrapper>
+        </form>
+      </div>
+
+      <Grid>
+        {!isLoading ? (
+          <SearchResult searchResult={searchResult} />
+        ) : (
+          'Loading...'
+        )}
+      </Grid>
+    </MainPageLaout>
+  );
 };
 
 export default Home;

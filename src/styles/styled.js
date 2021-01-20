@@ -21,6 +21,8 @@ export const Grid = styled.div`
 export const SearchCard = styled.div`
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.05);
   border-radius: 5px;
+  display: flex;
+  flex-direction: column;
 
   .img-wrapper {
     width: 100%;
@@ -33,6 +35,13 @@ export const SearchCard = styled.div`
       object-fit: cover;
       height: 100%;
       width: 100%;
+      transform: scale(1);
+      transition: all 0.2s linear 0s;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.2);
+      }
     }
 
     @media (max-width: ${size.mobileL}) {
@@ -41,16 +50,24 @@ export const SearchCard = styled.div`
   }
 
   .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     padding: 16px;
-  }
 
-  h1 {
-    margin: 10px 0;
-    font-size: 21px;
-  }
+    h1 {
+      margin: 10px 0;
+      font-size: 21px;
+    }
 
-  p {
-    margin: 0;
+    p {
+      margin: 0;
+      margin-bottom: 15px;
+    }
+
+    .btns {
+      margin-top: auto !important;
+    }
   }
 `;
 

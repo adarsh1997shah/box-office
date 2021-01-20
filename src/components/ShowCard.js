@@ -23,15 +23,17 @@ const ShowCard = ({
         <img src={image} alt="show" />
       </div>
 
-      <h1>{name}</h1>
+      <div className="card-body">
+        <h1>{name}</h1>
 
-      <p>{summaryAsText}</p>
+        <p>{summaryAsText}</p>
 
-      <div className="btns">
-        <Link to={`show/${id}`}>Read More</Link>
-        <button id={id} type="button" onClick={handleStarred}>
-          <Star active={active} />
-        </button>
+        <div className="btns">
+          <Link to={`show/${id}`}>Read More</Link>
+          <button id={id} type="button" onClick={handleStarred}>
+            <Star active={active} />
+          </button>
+        </div>
       </div>
     </StyledShowCard>
   );

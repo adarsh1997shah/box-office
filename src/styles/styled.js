@@ -1,27 +1,47 @@
 import styled from 'styled-components';
 // import FadeIn from 'react-fade-in';
 
+const size = {
+  mobileL: '425px',
+};
+
 export const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, 250px);
   padding: 0.5rem;
   grid-gap: 2rem;
   justify-content: center;
+  margin-bottom: 50px;
+
+  @media (max-width: ${size.mobileL}) {
+    grid-template-columns: repeat(auto-fit, 300px);
+  }
 `;
 
 export const SearchCard = styled.div`
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+
   .img-wrapper {
     width: 100%;
-    border-radius: 40px;
     height: 350px;
     overflow: hidden;
-    border: 1px solid #ddd;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 
     img {
       object-fit: cover;
       height: 100%;
       width: 100%;
     }
+
+    @media (max-width: ${size.mobileL}) {
+      height: 250px;
+    }
+  }
+
+  .card-body {
+    padding: 16px;
   }
 
   h1 {

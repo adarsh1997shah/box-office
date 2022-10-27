@@ -11,7 +11,7 @@ export const Grid = styled.div`
   padding: 0.5rem;
   grid-gap: 2rem;
   justify-content: center;
-  margin-bottom: 50px;
+  padding-bottom: 50px;
 
   @media (max-width: ${size.mobileL}) {
     grid-template-columns: repeat(auto-fit, 300px);
